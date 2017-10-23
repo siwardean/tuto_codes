@@ -10,11 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Client implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long codeClinet;
+	private Long codeClient;
 	private String nomClient;
 	@OneToMany(mappedBy="client", fetch=FetchType.LAZY)
 	private Collection<Compte> comptes;
@@ -28,11 +30,11 @@ public class Client implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Long getCodeClinet() {
-		return codeClinet;
+	public Long getCodeClient() {
+		return codeClient;
 	}
-	public void setCodeClinet(Long codeClinet) {
-		this.codeClinet = codeClinet;
+	public void setCodeClient(Long codeClinet) {
+		this.codeClient = codeClinet;
 	}
 	public String getNomClient() {
 		return nomClient;
@@ -40,6 +42,7 @@ public class Client implements Serializable {
 	public void setNomClient(String nomClient) {
 		this.nomClient = nomClient;
 	}
+	@JsonIgnore
 	public Collection<Compte> getComptes() {
 		return comptes;
 	}
