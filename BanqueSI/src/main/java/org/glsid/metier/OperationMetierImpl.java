@@ -11,6 +11,8 @@ import org.glsid.entities.Operation;
 import org.glsid.entities.Retrait;
 import org.glsid.entities.Versement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,6 +61,23 @@ public class OperationMetierImpl implements OperationMetier {
 		retirer(cpte1, montant, codeEmp);
 		verser(cpte2, montant, codeEmp);
 		return true;
+	}
+
+	@Override
+	public PageOperation getOpertaion(String codeCompte, int page, int size) {
+		// Solution 1
+		Page<Operation> ops=operationRepository.getOperation(codeCompte, new PageRequest(page, size));
+		// Solution 2 moins bonne
+		// Compte cp=compteRepository.findOne(codeCompte);
+		// Page<Operation> op2=operationRepository.findByCompte(cp, pageable);
+		
+		PageOperation pOp=new PageOperation();
+		pOp.setOperations(ops.getContent());
+		pOp.setNombreOpertaions(ops.getNumberOfElements());
+		pOp.setPage(ops.getNumber());
+		pOp.setTotalPages(ops.getTotalPages());
+		pOp.setTotalOperations((int)ops.getTotalElements());
+		return pOp;
 	}
 
 }

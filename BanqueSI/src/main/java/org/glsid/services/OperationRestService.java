@@ -1,6 +1,7 @@
 package org.glsid.services;
 
 import org.glsid.metier.OperationMetier;
+import org.glsid.metier.PageOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,6 +33,13 @@ public class OperationRestService {
 			@RequestParam double montant, 
 			@RequestParam Long codeEmp) {
 		return operationMetier.virement(cpte1, cpte2, montant, codeEmp);
+	}
+	@RequestMapping(value="/operations",method=RequestMethod.GET)
+	public PageOperation getOpertaion(
+			@RequestParam String codeCompte,
+			@RequestParam int page,
+			@RequestParam int size) {
+		return operationMetier.getOpertaion(codeCompte, page, size);
 	}
 	
 }
